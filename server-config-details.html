@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Configuration & Virtualization Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0a1929;
+            color: #e6f1ff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Back to Services Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 102, 204, 0.3);
+        }
+
+        .back-link:hover {
+            background-color: #0052a3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        /* Service Detail Header */
+        .service-detail-header {
+            background: linear-gradient(135deg, #0a1929, #1a365d, #0066cc);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 102, 204, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-detail-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(0, 102, 204, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 102, 204, 0.1) 0%, transparent 50%);
+        }
+
+        .service-detail-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #64b5f6, #90caf9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .service-detail-header p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .service-icon-large {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            color: #64b5f6;
+            position: relative;
+            text-shadow: 0 0 20px rgba(100, 181, 246, 0.3);
+        }
+
+        /* Service Detail Content */
+        .service-detail-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .service-detail-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .service-overview, .service-features {
+            background-color: rgba(16, 42, 67, 0.7);
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 102, 204, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.9rem;
+            color: #64b5f6;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #0066cc;
+            font-weight: 600;
+        }
+
+        .service-overview p {
+            font-size: 1.15rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .feature-list {
+            list-style-type: none;
+        }
+
+        .feature-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(100, 181, 246, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-list li:hover {
+            background-color: rgba(100, 181, 246, 0.05);
+            padding-left: 10px;
+            border-radius: 5px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list i {
+            color: #64b5f6;
+            font-size: 1.3rem;
+            margin-top: 3px;
+            min-width: 24px;
+        }
+
+        /* Virtualization Benefits */
+        .virtualization-benefits {
+            margin-bottom: 60px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 35px;
+        }
+
+        .benefit-card {
+            background: linear-gradient(145deg, rgba(16, 42, 67, 0.8), rgba(10, 25, 41, 0.8));
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 102, 204, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0066cc, #64b5f6);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 102, 204, 0.2);
+            border-color: rgba(100, 181, 246, 0.4);
+        }
+
+        .benefit-card h4 {
+            font-size: 1.4rem;
+            color: #90caf9;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .benefit-card h4 i {
+            color: #64b5f6;
+            font-size: 1.5rem;
+        }
+
+        .benefit-card p {
+            opacity: 0.85;
+            line-height: 1.7;
+        }
+
+        /* Server Types */
+        .server-types {
+            margin-bottom: 60px;
+        }
+
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 35px;
+        }
+
+        .type-card {
+            background: rgba(16, 42, 67, 0.7);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 102, 204, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 102, 204, 0.25);
+        }
+
+        .type-header {
+            padding: 25px;
+            background: linear-gradient(90deg, rgba(0, 102, 204, 0.3), rgba(100, 181, 246, 0.2));
+            border-bottom: 1px solid rgba(100, 181, 246, 0.2);
+        }
+
+        .type-header h4 {
+            font-size: 1.5rem;
+            color: #90caf9;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .type-header h4 i {
+            color: #64b5f6;
+        }
+
+        .type-content {
+            padding: 25px;
+        }
+
+        .type-features {
+            list-style-type: none;
+            margin-top: 15px;
+        }
+
+        .type-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.9;
+        }
+
+        .type-features li i {
+            color: #64b5f6;
+            font-size: 0.9rem;
+        }
+
+        /* Virtualization Platforms */
+        .virtualization-platforms {
+            margin-bottom: 60px;
+        }
+
+        .platforms-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 35px;
+            justify-content: center;
+        }
+
+        .platform-card {
+            background: rgba(16, 42, 67, 0.7);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 102, 204, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-5px);
+            border-color: #64b5f6;
+            box-shadow: 0 12px 30px rgba(100, 181, 246, 0.2);
+        }
+
+        .platform-icon {
+            font-size: 3rem;
+            color: #64b5f6;
+            margin-bottom: 20px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .platform-card h5 {
+            font-size: 1.3rem;
+            color: #90caf9;
+            margin-bottom: 15px;
+        }
+
+        /* Migration Process */
+        .migration-process {
+            margin-bottom: 60px;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #0066cc, #64b5f6, #90caf9);
+            z-index: 1;
+        }
+
+        .process-step {
+            background: rgba(16, 42, 67, 0.8);
+            padding: 30px 25px;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 102, 204, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            background: rgba(26, 54, 93, 0.8);
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #0066cc, #64b5f6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        .process-step h5 {
+            color: #90caf9;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #0a1929, #1a365d);
+            color: white;
+            padding: 60px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 60px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 102, 204, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(0, 102, 204, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(100, 181, 246, 0.1) 0%, transparent 50%);
+        }
+
+        .cta-section h3 {
+            font-size: 2.3rem;
+            margin-bottom: 25px;
+            color: #90caf9;
+            position: relative;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 35px;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, #0066cc, #64b5f6);
+            color: white;
+            padding: 18px 45px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 102, 204, 0.4);
+            background: linear-gradient(90deg, #0052a3, #4d9de0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .service-detail-header {
+                padding: 30px 20px;
+            }
+            
+            .service-detail-header h1 {
+                font-size: 2.3rem;
+            }
+            
+            .service-detail-header p {
+                font-size: 1.1rem;
+            }
+            
+            .service-overview, .service-features, .benefit-card, .type-card {
+                padding: 25px 20px;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+            
+            .process-step {
+                margin-bottom: 20px;
+            }
+            
+            .cta-section {
+                padding: 40px 20px;
+            }
+            
+            .cta-section h3 {
+                font-size: 1.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section id="server-config-details" class="service-detail">
+        <div class="container">
+            <a href="portfolioadjust.html #services" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Services
+            </a>
+            
+            <div class="service-detail-header">
+                <div class="service-icon-large">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h1>Server Configuration & Virtualization</h1>
+                <p>Server setup, virtualization, cloud migration, and data center management services. We build robust, scalable, and efficient server infrastructures that power your business operations.</p>
+            </div>
+            
+            <div class="service-detail-content">
+                <div class="service-overview">
+                    <h2 class="section-title">Service Overview</h2>
+                    <p>Our Server Configuration & Virtualization service provides comprehensive solutions for businesses looking to optimize their server infrastructure. We specialize in designing, implementing, and managing server environments that are secure, reliable, and scalable.</p>
+                    <p>Whether you're deploying physical servers, implementing virtualization, or migrating to the cloud, our team of certified engineers ensures optimal performance, high availability, and efficient resource utilization.</p>
+                    <p>We leverage cutting-edge technologies to create server environments that not only meet your current needs but also scale seamlessly with your business growth.</p>
+                </div>
+                
+                <div class="service-features">
+                    <h2 class="section-title">Key Features</h2>
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Custom Server Configuration:</strong> Tailored hardware and software configurations based on specific application requirements and workloads.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Virtualization Implementation:</strong> Deployment of hypervisors, virtual machines, and containers for optimal resource utilization.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>High Availability Clustering:</strong> Implementation of failover clusters and load balancing for mission-critical applications.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Storage Configuration:</strong> Setup of SAN, NAS, and software-defined storage solutions with appropriate RAID levels.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Backup & Disaster Recovery:</strong> Comprehensive backup strategies and disaster recovery planning for business continuity.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Performance Optimization:</strong> Continuous monitoring and tuning for optimal server performance and resource utilization.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="virtualization-benefits">
+                <h2 class="section-title">Virtualization Benefits</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <h4><i class="fas fa-chart-line"></i> Resource Optimization</h4>
+                        <p>Maximize hardware utilization by running multiple virtual servers on a single physical machine, reducing hardware costs by up to 70%.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4><i class="fas fa-rocket"></i> Rapid Deployment</h4>
+                        <p>Deploy new servers in minutes instead of days using templates and clones, accelerating time-to-market for new applications.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4><i class="fas fa-shield-alt"></i> Enhanced Security</h4>
+                        <p>Isolate applications in separate virtual machines, contain security breaches, and implement granular access controls.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4><i class="fas fa-sync-alt"></i> Business Continuity</h4>
+                        <p>Simplify backup and recovery with snapshot capabilities, live migration, and automated failover for high availability.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="server-types">
+                <h2 class="section-title">Server Solutions</h2>
+                <div class="types-grid">
+                    <div class="type-card">
+                        <div class="type-header">
+                            <h4><i class="fas fa-hdd"></i> Physical Servers</h4>
+                            <p>Dedicated hardware for maximum performance</p>
+                        </div>
+                        <div class="type-content">
+                            <p>Traditional dedicated server deployments for applications requiring maximum performance, specialized hardware, or compliance requirements.</p>
+                            <ul class="type-features">
+                                <li><i class="fas fa-check"></i> Maximum performance & control</li>
+                                <li><i class="fas fa-check"></i> Specialized hardware support</li>
+                                <li><i class="fas fa-check"></i> Compliance & regulatory requirements</li>
+                                <li><i class="fas fa-check"></i> High-performance computing</li>
+                                <li><i class="fas fa-check"></i> Legacy application support</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="type-card">
+                        <div class="type-header">
+                            <h4><i class="fas fa-layer-group"></i> Virtual Servers</h4>
+                            <p>Hypervisor-based virtualization</p>
+                        </div>
+                        <div class="type-content">
+                            <p>Virtual machine deployments using enterprise-grade hypervisors for efficient resource utilization and flexible management.</p>
+                            <ul class="type-features">
+                                <li><i class="fas fa-check"></i> Optimal resource utilization</li>
+                                <li><i class="fas fa-check"></i> Rapid provisioning & cloning</li>
+                                <li><i class="fas fa-check"></i> Live migration capabilities</li>
+                                <li><i class="fas fa-check"></i> Snapshot & rollback features</li>
+                                <li><i class="fas fa-check"></i> Reduced hardware footprint</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="type-card">
+                        <div class="type-header">
+                            <h4><i class="fas fa-box"></i> Container Platforms</h4>
+                            <p>Lightweight application isolation</p>
+                        </div>
+                        <div class="type-content">
+                            <p>Container-based deployments using Docker, Kubernetes, and other orchestration platforms for modern application architectures.</p>
+                            <ul class="type-features">
+                                <li><i class="fas fa-check"></i> Lightweight & fast deployment</li>
+                                <li><i class="fas fa-check"></i> Microservices architecture support</li>
+                                <li><i class="fas fa-check"></i> DevOps & CI/CD integration</li>
+                                <li><i class="fas fa-check"></i> Auto-scaling capabilities</li>
+                                <li><i class="fas fa-check"></i> Consistent environments</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="virtualization-platforms">
+                <h2 class="section-title">Supported Platforms</h2>
+                <div class="platforms-container">
+                    <div class="platform-card">
+                        <div class="platform-icon">
+                            <i class="fab fa-microsoft"></i>
+                        </div>
+                        <h5>Microsoft Hyper-V</h5>
+                        <p>Enterprise virtualization platform integrated with Windows Server ecosystem.</p>
+                    </div>
+                    
+                    <div class="platform-card">
+                        <div class="platform-icon">
+                            <i class="fas fa-vmware"></i>
+                        </div>
+                        <h5>VMware vSphere</h5>
+                        <p>Industry-leading virtualization platform with advanced management features.</p>
+                    </div>
+                    
+                    <div class="platform-card">
+                        <div class="platform-icon">
+                            <i class="fab fa-redhat"></i>
+                        </div>
+                        <h5>Red Hat Virtualization</h5>
+                        <p>Open-source based KVM virtualization platform for enterprise environments.</p>
+                    </div>
+                    
+                    <div class="platform-card">
+                        <div class="platform-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <h5>Docker & Kubernetes</h5>
+                        <p>Container orchestration platforms for modern application deployment.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="migration-process">
+                <h2 class="section-title">Migration Process</h2>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h5>Assessment</h5>
+                        <p>Comprehensive analysis of current infrastructure and workload requirements.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h5>Planning</h5>
+                        <p>Detailed migration strategy, timeline, and resource allocation planning.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h5>Pilot Migration</h5>
+                        <p>Test migration of non-critical workloads to validate the approach.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h5>Full Migration</h5>
+                        <p>Phased migration of all workloads with minimal business disruption.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">5</div>
+                        <h5>Optimization</h5>
+                        <p>Performance tuning, security hardening, and documentation handover.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <h3>Optimize Your Server Infrastructure</h3>
+                <p>Contact us today for a free server assessment and virtualization consultation. Let us design a server infrastructure that delivers performance, reliability, and scalability for your business.</p>
+                <a href="mailto:info@samcatem.com?subject=Server Assessment Inquiry" class="cta-button">Get Your Free Server Assessment</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

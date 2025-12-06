@@ -1,0 +1,25 @@
+.service-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.service-link h3 {
+    margin: 0;
+    padding: 10px 0;
+    transition: color 0.3s ease;
+}
+
+.service-link:hover h3 {
+    color: #007bff; /* Change to your brand color */
+}
+
+/* Remove default link styles and make it behave like regular text */
+.service-link:focus, 
+.service-link:active {
+    outline: none;
+}
+
+.service-link h3:hover {
+    cursor: pointer;
+}

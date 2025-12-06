@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Audit & Optimization Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0c0c0c;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Back to Services Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+
+        .back-link:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        /* Service Detail Header */
+        .service-detail-header {
+            background: linear-gradient(135deg, #1a1a1a, #2d0000, #dc3545);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(220, 53, 69, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-detail-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(220, 53, 69, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 68, 68, 0.1) 0%, transparent 40%);
+        }
+
+        .service-detail-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .service-detail-header p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .service-icon-large {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            color: #ff6b6b;
+            position: relative;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 20px rgba(255, 107, 107, 0.4); }
+            50% { text-shadow: 0 0 30px rgba(255, 107, 107, 0.6); }
+            100% { text-shadow: 0 0 20px rgba(255, 107, 107, 0.4); }
+        }
+
+        /* Service Detail Content */
+        .service-detail-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .service-detail-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .service-overview, .service-features {
+            background-color: rgba(40, 40, 40, 0.8);
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 107, 107, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.9rem;
+            color: #ff6b6b;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #dc3545;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #dc3545, transparent);
+        }
+
+        .service-overview p {
+            font-size: 1.15rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .feature-list {
+            list-style-type: none;
+        }
+
+        .feature-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 107, 107, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #dc3545;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-list li:hover::before {
+            opacity: 1;
+        }
+
+        .feature-list li:hover {
+            background-color: rgba(220, 53, 69, 0.05);
+            padding-left: 15px;
+            border-radius: 5px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list i {
+            color: #ff6b6b;
+            font-size: 1.3rem;
+            margin-top: 3px;
+            min-width: 24px;
+        }
+
+        /* Security Threats */
+        .security-threats {
+            margin-bottom: 60px;
+        }
+
+        .threats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 35px;
+        }
+
+        .threat-card {
+            background: linear-gradient(145deg, rgba(60, 20, 20, 0.8), rgba(40, 40, 40, 0.8));
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(220, 53, 69, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .threat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #dc3545, #ff6b6b);
+        }
+
+        .threat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(220, 53, 69, 0.25);
+            border-color: rgba(255, 107, 107, 0.4);
+        }
+
+        .threat-card h4 {
+            font-size: 1.4rem;
+            color: #ff8e8e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .threat-card h4 i {
+            color: #ff6b6b;
+            font-size: 1.5rem;
+        }
+
+        .threat-level {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        .critical {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .high {
+            background-color: #fd7e14;
+            color: white;
+        }
+
+        .medium {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        /* Audit Process */
+        .audit-process {
+            margin-bottom: 60px;
+        }
+
+        .process-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 40px auto 0;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #dc3545, #ff6b6b);
+            transform: translateX(-50%);
+        }
+
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #dc3545, #ff6b6b);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            margin-right: 30px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+        }
+
+        .step-content {
+            background-color: rgba(40, 40, 40, 0.8);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            flex-grow: 1;
+            border: 1px solid rgba(255, 107, 107, 0.1);
+        }
+
+        .step-content h4 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        /* Compliance Standards */
+        .compliance-standards {
+            margin-bottom: 60px;
+        }
+
+        .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+        }
+
+        .standard-card {
+            background-color: rgba(40, 40, 40, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 107, 107, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .standard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(220, 53, 69, 0.2);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        .standard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #dc3545, #ff6b6b);
+        }
+
+        .standard-icon {
+            font-size: 2.8rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .standard-card h5 {
+            font-size: 1.3rem;
+            color: #ff8e8e;
+            margin-bottom: 15px;
+        }
+
+        .standard-card p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        /* Testing Methods */
+        .testing-methods {
+            margin-bottom: 60px;
+        }
+
+        .methods-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 35px;
+            justify-content: center;
+        }
+
+        .method-card {
+            background-color: rgba(40, 40, 40, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .method-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff6b6b;
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.2);
+        }
+
+        .method-icon {
+            font-size: 3rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .method-card h5 {
+            font-size: 1.3rem;
+            color: #ff8e8e;
+            margin-bottom: 15px;
+        }
+
+        .method-card p {
+            opacity: 0.85;
+            line-height: 1.7;
+        }
+
+        /* Report & Recommendations */
+        .report-section {
+            margin-bottom: 60px;
+        }
+
+        .report-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+        }
+
+        .report-feature {
+            background-color: rgba(40, 40, 40, 0.8);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #dc3545;
+            transition: all 0.3s ease;
+        }
+
+        .report-feature:hover {
+            background-color: rgba(60, 20, 20, 0.8);
+            transform: translateX(5px);
+        }
+
+        .report-feature h5 {
+            color: #ff8e8e;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .report-feature h5 i {
+            color: #ff6b6b;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1a1a1a, #2d0000);
+            color: white;
+            padding: 60px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 60px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(220, 53, 69, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+        }
+
+        .cta-section h3 {
+            font-size: 2.3rem;
+            margin-bottom: 25px;
+            color: #ff8e8e;
+            position: relative;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 35px;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, #dc3545, #ff6b6b);
+            color: white;
+            padding: 18px 45px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(220, 53, 69, 0.4);
+            background: linear-gradient(90deg, #c82333, #ff5252);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .service-detail-header {
+                padding: 30px 20px;
+            }
+            
+            .service-detail-header h1 {
+                font-size: 2.3rem;
+            }
+            
+            .service-detail-header p {
+                font-size: 1.1rem;
+            }
+            
+            .service-overview, .service-features, .threat-card, .standard-card {
+                padding: 25px 20px;
+            }
+            
+            .process-timeline::before {
+                left: 25px;
+            }
+            
+            .step-number {
+                width: 50px;
+                height: 50px;
+                margin-right: 20px;
+            }
+            
+            .cta-section {
+                padding: 40px 20px;
+            }
+            
+            .cta-section h3 {
+                font-size: 1.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section id="security-audit-details" class="service-detail">
+        <div class="container">
+            <a href="portfolioadjust.html #services" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Services
+            </a>
+            
+            <div class="service-detail-header">
+                <div class="service-icon-large">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h1>Security Audit & Optimization</h1>
+                <p>Comprehensive security assessments, vulnerability testing, and implementation of security measures. We protect your digital assets with proactive security strategies and cutting-edge protection.</p>
+            </div>
+            
+            <div class="service-detail-content">
+                <div class="service-overview">
+                    <h2 class="section-title">Service Overview</h2>
+                    <p>Our Security Audit & Optimization service provides businesses with comprehensive security assessments designed to identify vulnerabilities, assess risks, and implement robust security measures. We take a proactive approach to cybersecurity, helping organizations protect their critical assets and data.</p>
+                    <p>Our team of certified security experts uses industry-standard methodologies and advanced tools to conduct thorough security evaluations. We don't just identify problems—we provide actionable solutions and help implement them to strengthen your security posture.</p>
+                    <p>From penetration testing to compliance audits, we offer a full spectrum of security services tailored to your organization's specific needs and risk profile.</p>
+                </div>
+                
+                <div class="service-features">
+                    <h2 class="section-title">Key Features</h2>
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-crosshairs"></i>
+                            <span><strong>Penetration Testing:</strong> Simulated cyber attacks to identify exploitable vulnerabilities in your systems and applications.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-search"></i>
+                            <span><strong>Vulnerability Assessment:</strong> Comprehensive scanning and analysis of networks, systems, and applications for security weaknesses.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-shield-alt"></i>
+                            <span><strong>Security Architecture Review:</strong> Evaluation of your security infrastructure design and implementation against best practices.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-contract"></i>
+                            <span><strong>Compliance Audits:</strong> Assessment against regulatory standards (GDPR, HIPAA, PCI-DSS, ISO 27001) and industry frameworks.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-user-check"></i>
+                            <span><strong>Social Engineering Testing:</strong> Simulated phishing, pretexting, and other human-factor security tests.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-chart-line"></i>
+                            <span><strong>Security Posture Assessment:</strong> Holistic evaluation of your organization's overall security maturity and readiness.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="security-threats">
+                <h2 class="section-title">Common Security Threats We Address</h2>
+                <div class="threats-grid">
+                    <div class="threat-card">
+                        <h4><i class="fas fa-bug"></i> Vulnerability Exploitation</h4>
+                        <p>Identification and remediation of software vulnerabilities, misconfigurations, and security gaps that could be exploited by attackers.</p>
+                        <span class="threat-level critical">CRITICAL</span>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <h4><i class="fas fa-fish"></i> Phishing & Social Engineering</h4>
+                        <p>Assessment of employee security awareness and implementation of training programs to combat human-factor attacks.</p>
+                        <span class="threat-level high">HIGH</span>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <h4><i class="fas fa-lock"></i> Data Breach Risks</h4>
+                        <p>Evaluation of data protection measures, encryption implementation, and access controls to prevent unauthorized data access.</p>
+                        <span class="threat-level critical">CRITICAL</span>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <h4><i class="fas fa-network-wired"></i> Network Intrusion</h4>
+                        <p>Testing of network security controls, firewall configurations, and intrusion detection/prevention systems.</p>
+                        <span class="threat-level high">HIGH</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="audit-process">
+                <h2 class="section-title">Our Security Audit Process</h2>
+                <div class="process-timeline">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Planning & Scoping</h4>
+                            <p>Define audit objectives, scope, methodology, and rules of engagement. Identify critical assets, systems, and data to be assessed.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Information Gathering</h4>
+                            <p>Collect information about your infrastructure, applications, users, and security controls through both passive and active reconnaissance.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Vulnerability Assessment</h4>
+                            <p>Perform automated and manual scanning to identify security vulnerabilities, misconfigurations, and weaknesses across all defined systems.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Penetration Testing</h4>
+                            <p>Simulate real-world attacks to exploit identified vulnerabilities and assess the actual impact on your business operations.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Analysis & Reporting</h4>
+                            <p>Analyze findings, prioritize risks, and develop comprehensive reports with actionable recommendations for remediation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="compliance-standards">
+                <h2 class="section-title">Compliance Standards We Cover</h2>
+                <div class="standards-grid">
+                    <div class="standard-card">
+                        <div class="standard-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5>ISO 27001</h5>
+                        <p>International standard for information security management systems (ISMS)</p>
+                    </div>
+                    
+                    <div class="standard-card">
+                        <div class="standard-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <h5>PCI-DSS</h5>
+                        <p>Payment Card Industry Data Security Standard for cardholder data protection</p>
+                    </div>
+                    
+                    <div class="standard-card">
+                        <div class="standard-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h5>HIPAA</h5>
+                        <p>Health Insurance Portability and Accountability Act for healthcare data</p>
+                    </div>
+                    
+                    <div class="standard-card">
+                        <div class="standard-icon">
+                            <i class="fas fa-globe-europe"></i>
+                        </div>
+                        <h5>GDPR</h5>
+                        <p>General Data Protection Regulation for EU citizen data privacy</p>
+                    </div>
+                    
+                    <div class="standard-card">
+                        <div class="standard-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <h5>NIST CSF</h5>
+                        <p>National Institute of Standards and Technology Cybersecurity Framework</p>
+                    </div>
+                    
+                    <div class="standard-card">
+                        <div class="standard-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <h5>SOX</h5>
+                        <p>Sarbanes-Oxley Act for financial reporting and corporate governance</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testing-methods">
+                <h2 class="section-title">Testing Methodologies</h2>
+                <div class="methods-container">
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-user-secret"></i>
+                        </div>
+                        <h5>Black Box Testing</h5>
+                        <p>External testing with no prior knowledge of the internal systems, simulating an external attacker's perspective.</p>
+                    </div>
+                    
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h5>White Box Testing</h5>
+                        <p>Internal testing with full knowledge of systems, simulating an insider threat or privileged user attack.</p>
+                    </div>
+                    
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h5>Gray Box Testing</h5>
+                        <p>Partial knowledge testing that combines elements of both black box and white box approaches.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="report-section">
+                <h2 class="section-title">Deliverables & Recommendations</h2>
+                <div class="report-features">
+                    <div class="report-feature">
+                        <h5><i class="fas fa-file-alt"></i> Executive Summary</h5>
+                        <p>High-level overview of findings, risk assessment, and strategic recommendations for leadership.</p>
+                    </div>
+                    
+                    <div class="report-feature">
+                        <h5><i class="fas fa-tasks"></i> Detailed Technical Report</h5>
+                        <p>Comprehensive documentation of vulnerabilities, exploitation methods, and evidence of compromise.</p>
+                    </div>
+                    
+                    <div class="report-feature">
+                        <h5><i class="fas fa-wrench"></i> Remediation Plan</h5>
+                        <p>Step-by-step guidance for addressing identified vulnerabilities, prioritized by risk level.</p>
+                    </div>
+                    
+                    <div class="report-feature">
+                        <h5><i class="fas fa-chart-bar"></i> Risk Assessment Matrix</h5>
+                        <p>Visual representation of risks categorized by likelihood and impact for informed decision-making.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <h3>Secure Your Digital Assets Today</h3>
+                <p>Contact us for a comprehensive security assessment and discover how we can help protect your organization from evolving cyber threats. Don't wait for a breach to happen.</p>
+                <a href="mailto:info@samcatem.com?subject=Security Audit Inquiry" class="cta-button">Schedule Your Security Assessment</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

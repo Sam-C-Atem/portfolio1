@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Support & Maintenance Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Back to Services Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #1e7e34;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Service Detail Header */
+        .service-detail-header {
+            background: linear-gradient(135deg, #1a7f3a, #28a745, #4cd964);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-detail-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .service-detail-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .service-icon-large {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        /* Service Detail Content */
+        .service-detail-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .service-detail-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .service-overview, .service-features {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #1a7f3a;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #28a745;
+        }
+
+        .service-overview p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style-type: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list i {
+            color: #28a745;
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+
+        /* Support Tiers Section */
+        .support-tiers {
+            margin-bottom: 50px;
+        }
+
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .tier-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tier-card.popular {
+            border: 2px solid #28a745;
+            transform: scale(1.05);
+        }
+
+        .tier-card.popular::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background-color: #28a745;
+            color: white;
+            padding: 5px 30px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transform: rotate(45deg);
+        }
+
+        .tier-card h4 {
+            font-size: 1.5rem;
+            color: #1a7f3a;
+            margin-bottom: 15px;
+        }
+
+        .tier-price {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .tier-price span {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .tier-features {
+            list-style-type: none;
+            margin-bottom: 25px;
+        }
+
+        .tier-features li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tier-features li i {
+            color: #28a745;
+        }
+
+        /* Response Times */
+        .response-times {
+            margin-bottom: 50px;
+        }
+
+        .times-table {
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+        }
+
+        .times-table th {
+            background-color: #1a7f3a;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .times-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .times-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .times-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+
+        .critical {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .high {
+            background-color: #ffa94d;
+            color: white;
+        }
+
+        .medium {
+            background-color: #4dabf7;
+            color: white;
+        }
+
+        .low {
+            background-color: #69db7c;
+            color: white;
+        }
+
+        /* Maintenance Services */
+        .maintenance-services {
+            margin-bottom: 50px;
+        }
+
+        .maintenance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .maintenance-item {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .maintenance-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .maintenance-icon {
+            font-size: 2.5rem;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .maintenance-item h5 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1a7f3a, #28a745);
+            color: white;
+            padding: 50px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .cta-section h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: white;
+            color: #1a7f3a;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .cta-button:hover {
+            background-color: transparent;
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .service-detail-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .service-detail-header p {
+                font-size: 1rem;
+            }
+            
+            .service-overview, .service-features, .tier-card {
+                padding: 20px;
+            }
+            
+            .tier-card.popular {
+                transform: scale(1);
+            }
+            
+            .times-table {
+                font-size: 0.9rem;
+            }
+            
+            .times-table th, .times-table td {
+                padding: 12px 15px;
+            }
+            
+            .cta-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section id="it-support-details" class="service-detail">
+        <div class="container">
+            <a href="portfolioadjust.html #services" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Services
+            </a>
+            
+            <div class="service-detail-header">
+                <div class="service-icon-large">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h1>IT Support & Maintenance</h1>
+                <p>Comprehensive IT support, system monitoring, and proactive maintenance to ensure optimal performance. We keep your technology running smoothly so you can focus on your business.</p>
+            </div>
+            
+            <div class="service-detail-content">
+                <div class="service-overview">
+                    <h2 class="section-title">Service Overview</h2>
+                    <p>Our IT Support & Maintenance service provides businesses with reliable, responsive, and professional technical support. We act as your outsourced IT department, offering comprehensive support solutions tailored to your specific needs and budget.</p>
+                    <p>From quick problem resolution to strategic technology planning, our team of certified IT professionals is available 24/7 to ensure your systems remain operational, secure, and efficient. We believe in proactive maintenance to prevent issues before they impact your business.</p>
+                    <p>With our IT support services, you gain access to enterprise-level technical expertise without the cost of maintaining a full in-house IT team.</p>
+                </div>
+                
+                <div class="service-features">
+                    <h2 class="section-title">Key Features</h2>
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>24/7 Help Desk Support:</strong> Round-the-clock technical assistance via phone, email, and remote support.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Proactive System Monitoring:</strong> Continuous monitoring of servers, networks, and critical systems to prevent downtime.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Remote & On-Site Support:</strong> Flexible support options including remote assistance and on-site technician visits.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Patch Management:</strong> Regular updates and security patches for all software and operating systems.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Backup Monitoring & Management:</strong> Regular verification and testing of backup systems to ensure data protection.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Vendor Management:</strong> Coordination with third-party vendors and service providers on your behalf.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="support-tiers">
+                <h2 class="section-title">Support Plans</h2>
+                <div class="tiers-grid">
+                    <div class="tier-card">
+                        <h4>Basic Support</h4>
+                        <div class="tier-price">$99<span>/month per user</span></div>
+                        <ul class="tier-features">
+                            <li><i class="fas fa-check"></i> Business Hours Support (9-5)</li>
+                            <li><i class="fas fa-check"></i> Remote Assistance Only</li>
+                            <li><i class="fas fa-check"></i> Basic System Monitoring</li>
+                            <li><i class="fas fa-check"></i> Monthly Maintenance</li>
+                            <li><i class="fas fa-check"></i> Email & Phone Support</li>
+                        </ul>
+                        <a href="#contact" class="cta-button" style="padding: 10px 25px; font-size: 1rem;">Get Started</a>
+                    </div>
+                    
+                    <div class="tier-card popular">
+                        <h4>Professional Support</h4>
+                        <div class="tier-price">$199<span>/month per user</span></div>
+                        <ul class="tier-features">
+                            <li><i class="fas fa-check"></i> 24/7 Support Coverage</li>
+                            <li><i class="fas fa-check"></i> Remote & On-Site Support</li>
+                            <li><i class="fas fa-check"></i> Advanced System Monitoring</li>
+                            <li><i class="fas fa-check"></i> Weekly Maintenance</li>
+                            <li><i class="fas fa-check"></i> Priority Response Times</li>
+                            <li><i class="fas fa-check"></i> Strategic IT Planning</li>
+                        </ul>
+                        <a href="#contact" class="cta-button" style="padding: 10px 25px; font-size: 1rem;">Get Started</a>
+                    </div>
+                    
+                    <div class="tier-card">
+                        <h4>Enterprise Support</h4>
+                        <div class="tier-price">Custom<span> Pricing</span></div>
+                        <ul class="tier-features">
+                            <li><i class="fas fa-check"></i> Dedicated Support Team</li>
+                            <li><i class="fas fa-check"></i> 24/7 On-Call Engineer</li>
+                            <li><i class="fas fa-check"></i> Comprehensive Monitoring</li>
+                            <li><i class="fas fa-check"></i> Daily Maintenance & Reports</li>
+                            <li><i class="fas fa-check"></i> Guaranteed Response Times</li>
+                            <li><i class="fas fa-check"></i> Strategic IT Roadmapping</li>
+                        </ul>
+                        <a href="#contact" class="cta-button" style="padding: 10px 25px; font-size: 1rem;">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="response-times">
+                <h2 class="section-title">Guaranteed Response Times</h2>
+                <div class="times-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Priority Level</th>
+                                <th>Description</th>
+                                <th>Initial Response Time</th>
+                                <th>Resolution Target</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="priority-badge critical">Critical</span></td>
+                                <td>System-wide outage affecting all users</td>
+                                <td>15 minutes</td>
+                                <td>2 hours</td>
+                            </tr>
+                            <tr>
+                                <td><span class="priority-badge high">High</span></td>
+                                <td>Major impact on business operations</td>
+                                <td>30 minutes</td>
+                                <td>4 hours</td>
+                            </tr>
+                            <tr>
+                                <td><span class="priority-badge medium">Medium</span></td>
+                                <td>Partial functionality issues affecting productivity</td>
+                                <td>1 hour</td>
+                                <td>1 business day</td>
+                            </tr>
+                            <tr>
+                                <td><span class="priority-badge low">Low</span></td>
+                                <td>Minor issues, feature requests, questions</td>
+                                <td>4 hours</td>
+                                <td>3 business days</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="maintenance-services">
+                <h2 class="section-title">Proactive Maintenance Services</h2>
+                <div class="maintenance-grid">
+                    <div class="maintenance-item">
+                        <div class="maintenance-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5>Security Updates</h5>
+                        <p>Regular application of security patches and vulnerability fixes</p>
+                    </div>
+                    <div class="maintenance-item">
+                        <div class="maintenance-icon">
+                            <i class="fas fa-hdd"></i>
+                        </div>
+                        <h5>Disk Cleanup</h5>
+                        <p>Systematic cleanup of temporary files and optimization of storage</p>
+                    </div>
+                    <div class="maintenance-item">
+                        <div class="maintenance-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h5>Backup Verification</h5>
+                        <p>Regular testing and validation of backup integrity and recovery processes</p>
+                    </div>
+                    <div class="maintenance-item">
+                        <div class="maintenance-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h5>Performance Reports</h5>
+                        <p>Monthly performance analysis and optimization recommendations</p>
+                    </div>
+                    <div class="maintenance-item">
+                        <div class="maintenance-icon">
+                            <i class="fas fa-virus"></i>
+                        </div>
+                        <h5>Virus Scanning</h5>
+                        <p>Comprehensive malware and virus scanning across all systems</p>
+                    </div>
+                    <div class="maintenance-item">
+                        <div class="maintenance-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h5>System Updates</h5>
+                        <p>Operating system and software updates during maintenance windows</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <h3>Ready for Reliable IT Support?</h3>
+                <p>Contact us today to discuss your IT support needs. We'll recommend the perfect plan to keep your business running smoothly and securely.</p>
+                <a href="mailto:info@samcatem.com?subject=IT Support Inquiry" class="cta-button">Get Your Free IT Assessment</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
