@@ -1599,9 +1599,9 @@
         // CV Download Function — open Overleaf-generated PDF instead of building locally
         document.getElementById('downloadCV').addEventListener('click', (e) => {
             e.preventDefault();
-            const overleafUrl = 'https://drive.google.com/file/d/1f7x8im5cZSeAo98lufZjKyAw39KxgpJe/view?usp=sharing';
+            const driveUrl = 'https://drive.google.com/file/d/1f7x8im5cZSeAo98lufZjKyAw39KxgpJe/view?usp=sharing';
             // Open the Overleaf download URL in a new tab to trigger the download
-            window.open(overleafUrl, '_blank', 'noopener');
+            window.open(driveUrl, '_blank', 'noopener');
         });
         
         // Contact Form Submission — open user's mail client with message addressed to info@samcatem.com
